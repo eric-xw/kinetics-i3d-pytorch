@@ -3,8 +3,11 @@
 *.swo
 *.swm
 
+*.pyc
 *.lprof
 
+.ipynb_checkpoints
 .cache
+features
 __pycache__
 src/__pycache__

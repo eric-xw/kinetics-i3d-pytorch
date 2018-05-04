@@ -12,7 +12,7 @@ def run_demo(args):
     kinetics_classes = [x.strip() for x in open(args.classes_path)]
 
     def get_scores(sample, model):
-        sample_var = torch.autograd.Variable(torch.from_numpy(sample).cuda())
+        sample_var = torch.autograd.Variable(torch.from_numpy(sample).cuda(), volatile=True)
         out_var, out_logit = model(sample_var)
         out_tensor = out_var.data.cpu()
 
@@ -33,7 +33,8 @@ def run_demo(args):
         i3d_rgb.cuda()
 
         rgb_sample = np.load(args.rgb_sample_path).transpose(0, 4, 1, 2, 3)
-        out_rgb_logit = get_scores(rgb_sample, i3d_rgb)
+        for i in xrange(100000):
+            out_rgb_logit = get_scores(rgb_sample, i3d_rgb)
 
     # Run flow model
     if args.flow:
