@@ -32,14 +32,14 @@ def transfer_weights(tf_checkpoint, pt_checkpoint, batch_size, modality='rgb'):
             '{} not among known modalities [rgb|flow]'.format(modality))
 
     frame_nb = 16  # Number of items in depth (temporal) dimension
-    class_nb = 400
+    class_nb = 600
 
     # Initialize dataset
     loader = torch.utils.data.DataLoader(
         dataset, batch_size=batch_size, shuffle=False)
 
     # Initialize pytorch I3D
-    i3nception_pt = I3D(num_classes=400, modality=modality)
+    i3nception_pt = I3D(num_classes=600, modality=modality)
 
     # Initialzie tensorflow I3D
     if modality == 'rgb':

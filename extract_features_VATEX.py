@@ -29,7 +29,7 @@ def get_features(sample, model):
 
 
 def read_video(video_dir):
-    start = time.time()
+    # start = time.time()
     frames = [f for f in os.listdir(video_dir) if os.path.isfile(os.path.join(video_dir, f))]
     data = []
     for i, frame in enumerate(sorted(frames)):
@@ -40,7 +40,7 @@ def read_video(video_dir):
         I = (I.astype('float32') / 255.0 - 0.5) * 2
         data.append(I)
     res = np.asarray(data)[np.newaxis, :, :, :, :]
-    print("load time: ", time.time() - start)
+    # print("load time: ", time.time() - start)
     return res
 
 
@@ -54,7 +54,6 @@ def run(args):
     video_list = os.listdir(args.video_dir)
 
     for vid in tqdm(video_list):
-        print(vid)
         video = os.path.join(args.video_dir, vid)
         clip = read_video(video)
         clip_len = clip.shape[1]
@@ -72,9 +71,7 @@ def run(args):
                     break
                 tmp_1 = max(0, tmp_2 - OVERLAP)
             features = np.concatenate(features, axis=1)
-        print(features.shape)
-        np.save(os.path.join(args.out_dir, vid), features)
-        exit(1)
+        np.save(os.path.join(args.out_dir, args.split, vid), features)
 
 
 if __name__ == "__main__":
@@ -96,7 +93,8 @@ if __name__ == "__main__":
         default='data/kinetic-samples/v_CricketShot_g04_c01_rgb.npy',
         help='Path to kinetics rgb numpy sample')
 
-    parser.add_argument('--video_dir', type=str, default='/mnt/HDD_large/xwang/VATEX/test')
-    parser.add_argument('--out_dir', type=str, default="features")
+    parser.add_argument('--video_dir', type=str, default='/mnt/kobe-shared/xwang/VATEX/val')
+    parser.add_argument('--out_dir', type=str, default="/mnt/bhd/xwang/vatex_features")
+    parser.add_argument('--split', type=str, default="train_val", help="train_val | test")
     args = parser.parse_args()
     run(args)
