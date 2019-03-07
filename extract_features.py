@@ -13,9 +13,9 @@ import time
 
 from src.i3dpt import I3D
 
-FPS = 20
+FPS = 25
 MAX_INTERVAL = 400
-OVERLAP = 20
+OVERLAP = 25
 rgb_pt_checkpoint = 'model/model_rgb.pth'
 
 

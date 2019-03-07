@@ -240,7 +240,7 @@ class I3D(torch.nn.Module):
         # Preprocessing
         inp = torch.cat([inp, inp, inp], 3)
         inp = torch.cat([inp, inp, inp, inp, inp, inp], 2)
-        print "input: ", inp.size()
+        print("input: ", inp.size())
         out = self.conv3d_1a_7x7(inp)
         out = self.maxPool3d_2a_3x3(out)
         out = self.conv3d_2b_1x1(out)
@@ -257,23 +257,23 @@ class I3D(torch.nn.Module):
         out = self.maxPool3d_5a_2x2(out)
         out = self.mixed_5b(out)
         out = self.mixed_5c(out)
-        print "mixed_5c: ", out.size()
+        print("mixed_5c: ", out.size())
         # out = self.avg_pool(out)
         out = F.adaptive_avg_pool3d(out, (None, 1, 1))
-        print "avg_pool: ", out.size()
+        print("avg_pool: ", out.size())
         out = self.dropout(out)
         out = self.conv3d_0c_1x1(out)
-        print "conv3d: ", out.size()
+        print("conv3d: ", out.size())
         out = out.squeeze(3)
         out = out.squeeze(3)
         out = out.mean(2)
-        print "logits: ", out.size()
+        print("logits: ", out.size())
         out_logits = out
         out = self.softmax(out_logits)
         return out, out_logits
 
     def extract(self, inp):
-        print "input: ", inp.size()
+        print("input: ", inp.size())
         out = self.conv3d_1a_7x7(inp)
         out = self.maxPool3d_2a_3x3(out)
         out = self.conv3d_2b_1x1(out)

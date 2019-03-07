@@ -142,12 +142,12 @@ if __name__ == "__main__":
     parser.add_argument(
         '--rgb_tf_checkpoint',
         type=str,
-        default='model/tf_rgb_imagenet/model.ckpt',
+        default='model/tf_rgb_scratch_kin600/model.ckpt',
         help='Path to tensorflow weight checkpoint trained on rgb')
     parser.add_argument(
         '--rgb_pt_checkpoint',
         type=str,
-        default='model/model_rgb.pth',
+        default='model/model_rgb_kin600.pth',
         help='Path for pytorch state_dict saving')
     parser.add_argument(
         '--flow', action='store_true', help='Convert Flow pretrained network')
