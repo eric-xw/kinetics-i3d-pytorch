@@ -54,11 +54,11 @@ def run(args):
     i3d_rgb.cuda()
 
     # read the video list which records the readable videos
-    with open(args.id_list, 'r') as f:
-        video_list = f.read().split('\n')
+    dir = os.path.join(args.video_dir, args.split + "_frames")
+    video_list = os.listdir(dir)
 
     for vid in tqdm(video_list):
-        video = os.path.join(args.video_dir, args.split, vid)
+        video = os.path.join(dir, vid)
         clip = read_video(video)
         if clip is None:
             continue
@@ -77,7 +77,7 @@ def run(args):
                     break
                 tmp_1 = max(0, tmp_2 - OVERLAP)
             features = np.concatenate(features, axis=1)
-        np.save(os.path.join(args.out_dir, args.split, vid), features)
+        np.save(os.path.join(args.out_dir, args.split + "_i3d_features", vid), features)
 
 
 if __name__ == "__main__":
@@ -100,8 +100,8 @@ if __name__ == "__main__":
         help='Path to kinetics rgb numpy sample')
 
     parser.add_argument('--id_list', type=str)
-    parser.add_argument('--video_dir', type=str, default='/mnt/kobe-shared/xwang/VATEX')
-    parser.add_argument('--out_dir', type=str, default="/mnt/bhd/xwang/vatex_features")
-    parser.add_argument('--split', type=str, default="val", help="val | test")
+    parser.add_argument('--video_dir', type=str, default='/mnt/bhd/xwang/MSR-VTT')
+    parser.add_argument('--out_dir', type=str, default="/mnt/bhd/xwang/MSR-VTT")
+    parser.add_argument('--split', type=str, default="train_val", help="train_val | test")
     args = parser.parse_args()
     run(args)
